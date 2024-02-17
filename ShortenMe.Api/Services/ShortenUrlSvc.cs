@@ -1,5 +1,4 @@
-﻿
-using ShortenMe.Database;
+﻿using ShortenMe.Database;
 
 namespace ShortenMe.Api.Services
 {
@@ -12,6 +11,7 @@ namespace ShortenMe.Api.Services
             this.repository = repository;
             this.tokenSvc = tokenSvc;
         }
+
         public Uri? GetLongUrl(string identifier)
         {
             var result = this.repository.GetLongUrl(identifier);

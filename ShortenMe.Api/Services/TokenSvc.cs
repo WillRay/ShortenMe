@@ -1,11 +1,10 @@
-﻿using ShortenMe.Api.Models;
-using ShortenMe.Database;
+﻿using ShortenMe.Database;
 
 namespace ShortenMe.Api.Services
 {
     public sealed class TokenSvc
     {
-        private Stack<ulong> ids;
+        private readonly Stack<ulong> ids;
         private readonly Repository repository;
 
         public TokenSvc(Repository repository)
