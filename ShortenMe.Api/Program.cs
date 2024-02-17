@@ -2,6 +2,10 @@ using ShortenMe.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = "";
+
+ShortenMe.Database.Program.RunMigrations(connectionString);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
