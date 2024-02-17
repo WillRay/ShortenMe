@@ -9,6 +9,19 @@ var connectionStrings = builder.Configuration.GetSection("ConnectionStrings").Ge
 ShortenMe.Database.Program.RunMigrations(connectionStrings.ShortenMeDB);
 
 builder.Services.AddControllers();
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            policy.AllowAnyOrigin();
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+        });
+    });
+}
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ShortenUrlSvc, ShortenUrlSvc>();
