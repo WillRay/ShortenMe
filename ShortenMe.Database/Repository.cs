@@ -1,8 +1,4 @@
-﻿using DbUp.Engine.Output;
-using MySqlX.XDevAPI.Relational;
-using Npgsql;
-using Org.BouncyCastle.Asn1.Esf;
-using System.Security.Policy;
+﻿using Npgsql;
 
 namespace ShortenMe.Database
 {
@@ -42,12 +38,6 @@ namespace ShortenMe.Database
                     "LEFT JOIN locations ON urlidentifiers.url_identifier = locations.url_identifier " +
                     "WHERE locations.url_identifier IS NULL " +
                     $"FETCH FIRST {amount} ROWS ONLY";
-
-//                SELECT id
-//FROM urlidentifiers
-//LEFT JOIN locations ON urlidentifiers.url_identifier = locations.url_identifier
-//WHERE locations.url_identifier IS NULL
-//FETCH FIRST 1000 ROWS ONLY
 
                 cmd.Connection.Open();
                 var reader = cmd.ExecuteReader();
