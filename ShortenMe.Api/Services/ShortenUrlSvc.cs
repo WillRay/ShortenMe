@@ -1,22 +1,28 @@
 ﻿
+using ShortenMe.Database;
+
 namespace ShortenMe.Api.Services
 {
     public class ShortenUrlSvc
     {
-        internal Uri Shorten(Uri longUrl)
-        {
-            // get current available id
-            // call db to get shorten option
-            // insert new shorten record
-            // increment id
-            // return result
+        private readonly Repository repository;
+        private readonly TokenSvc tokenSvc;
 
-            return new Uri("http://www.google.com/");
+        public ShortenUrlSvc(Repository repository, TokenSvc tokenSvc) {
+            this.repository = repository;
+            this.tokenSvc = tokenSvc;
+        }
+        public Uri? GetLongUrl(string identifier)
+        {
+            var result = this.repository.GetLongUrl(identifier);
+            return string.IsNullOrEmpty(result) ? (Uri)null : new Uri(result);
         }
 
-        internal Uri Create(Uri longUrl)
+        public string CreateShortUrl(Uri longUrl)
         {
-            return new Uri("http://www.google.com/12345");
+            var id = tokenSvc.GetNextIndex();
+            var result = repository.CreateShortUrl(id, longUrl);
+            return result.Identifier;
         }
     }
 }
