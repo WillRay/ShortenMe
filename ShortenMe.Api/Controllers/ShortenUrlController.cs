@@ -15,16 +15,21 @@ namespace ShortenMe.Api.Controllers
         }
 
         [HttpGet]
-        public Uri Get(Uri longUrl)
+        public ActionResult<Uri> Get(string identifier)
         {
-            var result = shortenUrlSvc.Shorten(longUrl);
+            var result = shortenUrlSvc.GetLongUrl(identifier);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return result;
         }
 
         [HttpPost]
-        public Uri Post(Uri longUrl)
+        public string Post(Uri longUrl)
         {
-            var result = shortenUrlSvc.Create(longUrl);
+            var result = shortenUrlSvc.CreateShortUrl(longUrl);
             return result;
         }
     }

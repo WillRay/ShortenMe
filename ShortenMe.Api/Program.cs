@@ -1,23 +1,22 @@
+using ShortenMe.Api;
 using ShortenMe.Api.Services;
+using ShortenMe.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = "";
+var connectionStrings = builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>() ?? new();
 
-ShortenMe.Database.Program.RunMigrations(connectionString);
-
-// Add services to the container.
+ShortenMe.Database.Program.RunMigrations(connectionStrings.ShortenMeDB);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ShortenUrlSvc, ShortenUrlSvc>();
+builder.Services.AddSingleton<Repository, Repository>(s => new Repository(connectionStrings.ShortenMeDB));
 builder.Services.AddSingleton<TokenSvc, TokenSvc>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
